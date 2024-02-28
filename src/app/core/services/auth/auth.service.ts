@@ -26,7 +26,7 @@ export class AuthService {
 
   login(user: User): Observable<Token> {
     return this.http.post<Token>(`${this.BASE_URL}${this.LOGIN_PATH}`, user).pipe(
-      tap(({ acces_token: token }) => {
+      tap(({ access_token: token }) => {
         this._isLoggedIn$.next(true);
         this.saveToken(token);
       }),
