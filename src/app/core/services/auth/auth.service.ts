@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
 
 import { User } from '../../models/user.model';
 import { Token } from '../../models/token.model';
-import { LoggerService } from './../logger/logger.service';
+import { LoggerService } from '../logger/logger.service';
 import { environment } from '../../../../environments/environment';
 import { ErrorResponse } from '../../models/error-response.model';
 
@@ -19,6 +19,10 @@ export class AuthService {
   private readonly _isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private loggerService: LoggerService) {}
+
+  get isLoggedIn$() {
+    return this._isLoggedIn$.asObservable();
+  }
 
   login(user: User): Observable<Token> {
     return this.http.post<Token>(`${this.BASE_URL}${this.LOGIN_PATH}`, user).pipe(
