@@ -7,8 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 
 import { RootRoutingModule } from './root-routing.module';
-import { HomeComponent } from './components/home/home.component';
-import { FeedComponent } from './components/feed/feed.component';
+import { HomeComponent } from './home/home.component';
+import { FeedComponent } from './feed/feed.component';
 import { LayoutComponent } from '../../shared/components/layout/layout.component';
 
 @NgModule({
