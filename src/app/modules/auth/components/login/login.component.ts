@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms';
 
+import { LoggerService } from '../../../../core/services/logger/logger.service';
+import { AuthService } from '../../../../core/services/auth/auth.service';
 @Component({
   selector: 'fs-login',
   templateUrl: './login.component.html',
@@ -9,7 +12,12 @@ import { FormControl, Validators, FormGroup, FormBuilder } from '@angular/forms'
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private loggerService: LoggerService
+  ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       password: [
@@ -26,10 +34,15 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.valid) {
-      //call to API
-      console.log('Login form is valid');
+      this.authService.login(this.loginForm.value).subscribe({
+        next: data => {
+          this.router.navigate(['/home']);
+          this.loggerService.handleSuccess('Login successful');
+        },
+      });
     }
   }
+
   getErrorMessage(formField: string): string {
     if (this.loginForm?.get(formField)?.hasError('required')) {
       return `You must enter a value.`;
