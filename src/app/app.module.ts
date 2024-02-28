@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule],
-  providers: [provideAnimationsAsync()],
+  imports: [HttpClientModule, BrowserModule, AppRoutingModule, BrowserAnimationsModule, MatSnackBarModule],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
