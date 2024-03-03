@@ -11,7 +11,9 @@
     </main>
 
     <footer class="layout__footer">
-      <a class="link" *ngFor="let link of footerLinks" [routerLink]="link.href">{{ link.label }}</a>
+      @for (link of footerLinks; track link) {
+      <a class="link" [routerLink]="link.href">{{ link.label }}</a>
+      }
     </footer>
   </div>
 </div>
