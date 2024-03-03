@@ -40,7 +40,6 @@ export class AuthService {
   }
 
   register(newUser: User): Observable<User> {
-    console.log(newUser);
     return this.http
       .post<User>(`${this.BASE_URL}${this.REGISTER_PATH}`, newUser)
       .pipe(catchError(this.handleError<User>('Register')));
