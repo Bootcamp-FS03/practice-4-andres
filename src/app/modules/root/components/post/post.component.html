@@ -19,9 +19,9 @@
   <div class="post__actions">
     <button mat-button>Comment</button>
 
-    <ng-container *ngIf="(profileService.profile$ | async)?._id === post.author._id">
-      <button mat-button>Edit</button>
-      <button mat-button>Remove</button>
-    </ng-container>
+    @if ((profileService.profile$ | async)?._id === post.author._id) {
+    <button mat-button>Edit</button>
+    <button mat-button>Remove</button>
+    }
   </div>
 </mat-card>
