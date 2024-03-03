@@ -1,0 +1,6 @@
+<div class="addPost">
+  <div class="addPost__avatar">{{ (loggedInProfile?.username)![0] }}</div>
+  <button (click)="openPostForm()" mat-raised-button color="primary" class="addPost__button">
+    What are you thinking, {{ loggedInProfile?.username }}?
+  </button>
+</div>
