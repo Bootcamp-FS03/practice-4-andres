@@ -1,3 +1,5 @@
 <div class="main">
-  <fs-post *ngFor="let post of posts$ | async; trackBy: postTrackByFn" [post]="post" />
+  @for (post of posts$ | async; track postTrackByFn($index, post)) {
+  <fs-post [post]="post" />
+  }
 </div>
