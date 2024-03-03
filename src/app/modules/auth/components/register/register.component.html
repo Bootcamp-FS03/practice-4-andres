@@ -7,18 +7,24 @@
       <mat-form-field class="form-field">
         <mat-label>Username</mat-label>
         <input matInput placeholder="Username" formControlName="username" />
-        <mat-error *ngIf="registerForm.get('username')?.invalid">{{ getErrorMessage('username') }}</mat-error>
+        @if (registerForm.get('username')?.invalid) {
+        <mat-error>{{ getErrorMessage('username') }}</mat-error>
+        }
       </mat-form-field>
       <br />
       <mat-form-field class="form-field">
         <mat-label>Password</mat-label>
         <input type="password" matInput placeholder="Password" formControlName="pass" />
-        <mat-error *ngIf="registerForm.get('pass')?.invalid">{{ getErrorMessage('pass') }}</mat-error>
+        @if (registerForm.get('pass')?.invalid) {
+        <mat-error>{{ getErrorMessage('pass') }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field class="form-field">
         <mat-label>Confirm password</mat-label>
         <input type="password" matInput placeholder="confirmPassword" formControlName="confirmPass" />
-        <mat-error *ngIf="registerForm.get('confirmPass')?.invalid">{{ getErrorMessage('confirmPass') }}</mat-error>
+        @if (registerForm.get('confirmPass')?.invalid) {
+        <mat-error>{{ getErrorMessage('confirmPass') }}</mat-error>
+        }
       </mat-form-field>
     </div>
     <br />
