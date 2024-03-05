@@ -7,3 +7,4 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
 }
+export interface PostForm extends Pick<Post, 'text' | 'author'> {}
