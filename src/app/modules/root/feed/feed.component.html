@@ -7,8 +7,8 @@
 
   <fs-add-post class="main__new-post" />
 
-  @for (post of posts$ | async; track postTrackByFn($index, post)) {
-  <fs-post [post]="post" />
+  @for (post of postService.posts(); track post._id) {
+  <fs-post class="main__post" [post]="post" />
   } @empty {
   <div class="no-posts">
     <h2>No posts found</h2>
