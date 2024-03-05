@@ -47,11 +47,9 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const isLoggedIn = !!this.getToken();
-
     if (isLoggedIn && !this._isLoggedIn$.value) {
       this._isLoggedIn$.next(true);
     }
-
     return isLoggedIn;
   }
 
@@ -67,7 +65,6 @@ export class AuthService {
     return (errorResponse: HttpErrorResponse): Observable<T> => {
       const errorInfo = errorResponse.error as ErrorResponse;
       const errorMessage = errorInfo.message || 'Unknown error ocurred';
-
       this.loggerService.handleError(`${operation} failed: ${errorMessage}`);
       return throwError(() => new Error(`${operation} failed: ${errorMessage}`));
     };
