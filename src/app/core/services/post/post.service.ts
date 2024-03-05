@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject, tap, map } from 'rxjs';
 
-import { Post } from '../../models/post.model';
+import { Post, PostForm } from '../../models/post.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -13,33 +13,27 @@ export class PostService {
   private readonly BASE_URL = environment.baseUrl;
   private readonly POSTS_PATH = environment.api.post;
 
-  private postsUpdatedSubject: Subject<void> = new Subject<void>();
+  private _posts = signal<Post[]>([]);
+  readonly posts = this._posts.asReadonly();
 
   constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.BASE_URL}${this.POSTS_PATH}`);
+    return this.http.get<Post[]>(`${this.BASE_URL}${this.POSTS_PATH}`).pipe(
+      tap(posts => this._posts.set(posts)),
+      map(posts => posts.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()))
+    );
   }
 
   createPost(post: Post): Observable<Post> {
-    return this.http
-      .post<Post>(`${this.BASE_URL}${this.POSTS_PATH}`, post)
-      .pipe(tap(() => this.postsUpdatedSubject.next()));
+    return this.http.post<Post>(`${this.BASE_URL}${this.POSTS_PATH}`, post);
   }
 
-  updatePost(post: Post): Observable<Post> {
-    return this.http
-      .put<Post>(`${this.BASE_URL}${this.POSTS_PATH}/${post._id}`, post)
-      .pipe(tap(() => this.postsUpdatedSubject.next()));
+  updatePost(postId: string, postForm: PostForm): Observable<Post> {
+    return this.http.patch<Post>(`${this.BASE_URL}${this.POSTS_PATH}/${postId}`, postForm);
   }
 
   deletePost(postId: string): Observable<Post> {
-    return this.http
-      .delete<Post>(`${this.BASE_URL}${this.POSTS_PATH}/${postId}`)
-      .pipe(tap(() => this.postsUpdatedSubject.next()));
-  }
-
-  postsUpdated() {
-    return this.postsUpdatedSubject.asObservable();
+    return this.http.delete<Post>(`${this.BASE_URL}${this.POSTS_PATH}/${postId}`);
   }
 }
