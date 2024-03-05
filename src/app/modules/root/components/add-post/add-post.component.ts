@@ -11,13 +11,14 @@ import { PostFormComponent } from '../post-form/post-form.component';
   styleUrl: './add-post.component.sass',
 })
 export class AddPostComponent {
-  readonly loggedInProfile = this.profileService.profile;
+  readonly loggedInProfile = this.profileService.profile();
 
   constructor(public readonly profileService: ProfileService, public dialog: MatDialog) {
-    this.loggedInProfile = this.profileService.profile;
+    this.loggedInProfile = this.profileService.profile();
   }
 
   openPostForm() {
-    this.dialog.open(PostFormComponent, { data: { title: 'Create new post', profile: this.loggedInProfile } });
+    console.log(this.loggedInProfile);
+    this.dialog.open(PostFormComponent, { data: { title: 'Create ', profile: this.loggedInProfile } });
   }
 }
