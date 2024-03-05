@@ -2,6 +2,8 @@ import { PostService } from './../../../../core/services/post/post.service';
 import { Component, Input } from '@angular/core';
 import { Post } from '../../../../core/models/post.model';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
+import { PostFormComponent } from '../post-form/post-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'fs-post',
@@ -9,13 +11,23 @@ import { ProfileService } from '../../../../core/services/profile/profile.servic
   styleUrl: './post.component.sass',
 })
 export class PostComponent {
-  @Input() post!: Post;
+  readonly loggedInProfile = this.profileService.profile;
+  @Input({ required: true }) post!: Post;
 
-  constructor(public readonly profileService: ProfileService, private readonly postService: PostService) {}
+  constructor(
+    public dialog: MatDialog,
+    private readonly postService: PostService,
+    public readonly profileService: ProfileService
+  ) {}
+
+  handleEdit(post: Post) {
+    this.dialog.open(PostFormComponent, { data: { title: 'Edit ', profile: this.loggedInProfile, post: post } });
+  }
 
   handleDelete(postId: string) {
     this.postService.deletePost(postId).subscribe({
       next: () => {
+        this.postService.getPosts().subscribe();
         console.log('post Deleted ');
       },
       error: error => console.error('Error deleting post', error),

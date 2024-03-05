@@ -19,8 +19,8 @@
   <div class="post__actions">
     <button mat-button>Comment</button>
 
-    @if ((profileService.profile$ | async)?._id === post.author._id) {
-    <button mat-button>Edit</button>
+    @if ((profileService.profile())?._id === post.author._id) {
+    <button (click)="handleEdit(post)" mat-button>Edit</button>
     <button (click)="handleDelete(post._id)" mat-button>Remove</button>
     }
   </div>
