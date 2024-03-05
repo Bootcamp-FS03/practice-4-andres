@@ -1,3 +1,5 @@
+import { ProfileService } from './../../../../core/services/profile/profile.service';
+import { profileResolver } from './../../../../core/resolvers/profile.resolver';
 import { Author } from './../../../../core/models/author.model';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +9,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { DialogData } from '../../../../core/interfaces/dialogData';
 import { PostService } from '../../../../core/services/post/post.service';
+import { PostForm } from '../../../../core/models/post.model';
 
 @Component({
   selector: 'fs-post-form',
@@ -23,13 +26,15 @@ export class PostFormComponent {
   postForm!: FormGroup;
 
   title = this.data.title;
+  post? = this.data.post;
   postText? = this.data.post?.text;
-  profile = this.data.profile;
+  loggedInProfile = this.profileService.profile() as Author;
 
   constructor(
     private readonly formBuilder: FormBuilder,
     private readonly dialogRef: MatDialogRef<PostFormComponent>,
     private readonly postService: PostService,
+    private readonly profileService: ProfileService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
@@ -43,14 +48,14 @@ export class PostFormComponent {
         this.data.post ? this.postText : '',
         [Validators.required, Validators.minLength(3), Validators.maxLength(500)],
       ],
-      author: [this.data.post ? this.postText : this.profile?._id],
+      author: [this.loggedInProfile._id],
     });
   }
+
   onSubmit() {
     if (!this.postForm.valid) {
       this.postForm.markAllAsTouched();
     }
-
     if (this.postForm.valid && this.data.post) {
       this.updatePost();
     } else {
@@ -62,6 +67,7 @@ export class PostFormComponent {
     this.postService.createPost(this.postForm.value).subscribe({
       next: post => {
         this.dialogRef.close(post);
+        this.postService.getPosts().subscribe();
         console.log('post created');
       },
       error: error => {
@@ -71,6 +77,15 @@ export class PostFormComponent {
   }
 
   private updatePost(): void {
-    console.log('Update post');
+    this.postService.updatePost(this.post!._id, this.postForm.value).subscribe({
+      next: post => {
+        this.dialogRef.close(post);
+        this.postService.getPosts().subscribe();
+        console.log('post updated');
+      },
+      error: error => {
+        console.error('Error updating post', error);
+      },
+    });
   }
 }
