@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { CommentService } from './../../../../core/services/comment/comment.service';
 import { PostService } from './../../../../core/services/post/post.service';
+import { LoggerService } from './../../../../core/services/logger/logger.service';
 import { Post } from '../../../../core/models/post.model';
 import { ProfileService } from '../../../../core/services/profile/profile.service';
 import { PostFormComponent } from '../post-form/post-form.component';
@@ -16,13 +17,13 @@ export class PostComponent {
   readonly loggedInProfile = this.profileService.profile;
   @Input({ required: true }) post!: Post;
   viewComments: boolean = false;
-  loggerService: any;
 
   constructor(
     public dialog: MatDialog,
     public readonly postService: PostService,
     public readonly profileService: ProfileService,
-    public readonly commentService: CommentService
+    public readonly commentService: CommentService,
+    public readonly loggerService: LoggerService
   ) {}
 
   handleComments() {

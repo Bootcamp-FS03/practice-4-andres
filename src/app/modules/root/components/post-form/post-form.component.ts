@@ -1,3 +1,4 @@
+import { LoggerService } from './../../../../core/services/logger/logger.service';
 import { ProfileService } from './../../../../core/services/profile/profile.service';
 import { profileResolver } from './../../../../core/resolvers/profile.resolver';
 import { Author } from './../../../../core/models/author.model';
@@ -24,7 +25,6 @@ import { PostForm } from '../../../../core/models/post.model';
 })
 export class PostFormComponent {
   postForm!: FormGroup;
-
   title = this.data.title;
   post? = this.data.post;
   postText? = this.data.post?.text;
@@ -35,6 +35,7 @@ export class PostFormComponent {
     private readonly dialogRef: MatDialogRef<PostFormComponent>,
     private readonly postService: PostService,
     private readonly profileService: ProfileService,
+    private readonly loggerService: LoggerService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
@@ -68,9 +69,10 @@ export class PostFormComponent {
       next: post => {
         this.dialogRef.close(post);
         this.postService.getPosts().subscribe();
-        console.log('post created');
+        this.loggerService.handleSuccess('Post created');
       },
       error: error => {
+        this.loggerService.handleError(`Create post failed: ${error.message}`);
         console.error('Error creating post', error);
       },
     });
@@ -81,9 +83,10 @@ export class PostFormComponent {
       next: post => {
         this.dialogRef.close(post);
         this.postService.getPosts().subscribe();
-        console.log('post updated');
+        this.loggerService.handleSuccess('Post updated');
       },
       error: error => {
+        this.loggerService.handleError(`Update post failed: ${error.message}`);
         console.error('Error updating post', error);
       },
     });

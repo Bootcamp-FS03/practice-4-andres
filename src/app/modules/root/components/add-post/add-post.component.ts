@@ -18,7 +18,6 @@ export class AddPostComponent {
   }
 
   openPostForm() {
-    console.log(this.loggedInProfile);
     this.dialog.open(PostFormComponent, { data: { title: 'Create ', profile: this.loggedInProfile } });
   }
 }
