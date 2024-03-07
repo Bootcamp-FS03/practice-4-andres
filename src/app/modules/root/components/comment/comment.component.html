@@ -1,1 +1,20 @@
-<p>comment works!</p>
+<mat-card class="comment c c--col c--gap-lg">
+  <div class="comment__main">
+    <div class="comment__content">
+      <p class="comment__text">{{ comment.text }}</p>
+    </div>
+
+    <header class="comment__header">
+      <div class="c c--row">
+        <div class="comment__avatar">{{ comment.author.username[0] }}</div>
+
+        <div class="c c--col c--gap-sm">
+          <a class="comment__link"> {{ comment.author.username }}</a>
+          <mat-card-subtitle class="comments">
+            {{ comment.updatedAt | date : 'MMM dd, yyyy HH:mm' }}
+          </mat-card-subtitle>
+        </div>
+      </div>
+    </header>
+  </div>
+</mat-card>

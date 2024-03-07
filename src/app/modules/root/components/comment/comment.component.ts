@@ -9,4 +9,8 @@ import { Comment } from '../../../../core/models/comment.model';
 })
 export class CommentComponent {
   @Input({ required: true }) comment!: Comment;
+
+  ngOnInit(): void {
+    console.log('CommentComponent initialized', this.comment);
+  }
 }
