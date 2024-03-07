@@ -19,9 +19,18 @@ import { AddPostComponent } from './components/add-post/add-post.component';
 import { PostComponent } from './components/post/post.component';
 import { PostFormComponent } from './components/post-form/post-form.component';
 import { LayoutComponent } from '../../shared/components/layout/layout.component';
+import { CommentComponent } from './components/comment/comment.component';
 
 @NgModule({
-  declarations: [HomeComponent, FeedComponent, LayoutComponent, PostComponent, PostFormComponent, AddPostComponent],
+  declarations: [
+    HomeComponent,
+    FeedComponent,
+    LayoutComponent,
+    PostComponent,
+    PostFormComponent,
+    AddPostComponent,
+    CommentComponent,
+  ],
   imports: [
     CommonModule,
     RootRoutingModule,

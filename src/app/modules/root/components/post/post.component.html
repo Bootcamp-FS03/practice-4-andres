@@ -17,7 +17,7 @@
     </div>
   </div>
   <div class="post__actions">
-    <button mat-button>Comment</button>
+    <button mat-button (click)="handleComments()">Comment</button>
 
     @if ((profileService.profile())?._id === post.author._id) {
     <button (click)="handleEdit(post)" mat-button>Edit</button>

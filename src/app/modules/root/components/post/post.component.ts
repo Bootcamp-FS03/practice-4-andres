@@ -13,12 +13,20 @@ import { MatDialog } from '@angular/material/dialog';
 export class PostComponent {
   readonly loggedInProfile = this.profileService.profile;
   @Input({ required: true }) post!: Post;
+  viewComments: boolean = false;
 
   constructor(
     public dialog: MatDialog,
-    private readonly postService: PostService,
+    public readonly postService: PostService,
     public readonly profileService: ProfileService
   ) {}
+  ngOnInit(): void {
+    console.log('post', this.post);
+  }
+
+  handleComments() {
+    this.viewComments = !this.viewComments;
+  }
 
   handleEdit(post: Post) {
     this.dialog.open(PostFormComponent, { data: { title: 'Edit ', profile: this.loggedInProfile, post: post } });
